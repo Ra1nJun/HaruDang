@@ -10,7 +10,7 @@ Pet Dog Growth Chatbot
 
 ## 기술 스택
 |Front|Back|DB|
-|:---:|:---:|:---:|:---:|
+|:---:|:---:|:---:|
 |React + Vite|Python / FastAPI / Spring|ElasticSearch / PostgreSQL|
 
 ## 폴더 구조
