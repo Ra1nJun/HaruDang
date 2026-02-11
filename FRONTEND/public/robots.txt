@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /auth
+Disallow: /*.js$
+Disallow: /*.css$
+
+Sitemap: https://harudang.com/sitemap.xml
