@@ -1,14 +1,27 @@
+# 80 포트: 모두 HTTPS로 리다이렉트
 server {
     listen 80;
+    server_name _;
 
-    # 1. 프론트엔드 서빙
+    return 301 https://$host$request_uri;
+}
+
+# 443 포트: self-signed 인증서로 HTTPS + 프론트/백엔드 프록시
+server {
+    listen 443 ssl;
+    server_name _;
+
+    ssl_certificate     /etc/ssl/certs/selfsigned.crt;
+    ssl_certificate_key /etc/ssl/private/selfsigned.key;
+
+    # 프론트 (Vite 빌드 결과를 nginx가 서빙할 경우)
     location / {
         root /usr/share/nginx/html;
         index index.html;
         try_files $uri $uri/ /index.html;
     }
 
-    # 2. 모든 API 요청은 Spring으로
+    # 백엔드 API 프록시
     location /api/ {
         proxy_pass http://${BACKEND_URL}/;
         proxy_set_header Host $host;

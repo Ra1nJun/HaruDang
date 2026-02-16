@@ -8,8 +8,9 @@ services:
     environment:
       - BACKEND_URL=${BACKEND_URL}
     volumes:
-      - ./FRONTEND/dist:/usr/share/nginx/html # 빌드된 프론트 파일을 Nginx에 연결
       - ./NGINX/default.conf.template:/etc/nginx/templates/default.conf.template:ro # 설정 파일 연결
+      - /home/ubuntu/certs/selfsigned.crt:/etc/ssl/certs/selfsigned.crt:ro
+      - /home/ubuntu/certs/selfsigned.key:/etc/ssl/private/selfsigned.key:ro
     depends_on:
       - app
     restart: always
