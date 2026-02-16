@@ -1,10 +1,7 @@
 import httpClient from './httpClient';
-import qs from 'qs'; 
 
 export function login(email, password) {
-    return httpClient.post('/auth/login', { email, password }, {
-    withCredentials: true
-    });
+    return httpClient.post('/auth/login', { email, password });
 }
 
 export function reissue() {
