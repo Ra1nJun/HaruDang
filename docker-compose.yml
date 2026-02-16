@@ -40,24 +40,6 @@ services:
         condition: service_healthy
     restart: always
 
-  elasticsearch:
-    container_name: elasticsearch
-    build: .
-    image: harudang-elasticsearch:latest
-    environment:
-      - discovery.type=single-node
-      - ES_JAVA_OPTS=-Xms512m -Xmx512m
-      - xpack.security.enabled=false
-    ports:
-      - "${ES_PORT}:9200"
-    volumes:
-      - es_data:/usr/share/elasticsearch/data
-    healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:9200/_cluster/health | grep -qv '\"status\":\"red\"'"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
-
   postgres:
     image: postgres:15-alpine
     container_name: postgresql
@@ -71,31 +53,5 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
-  llm-serve:
-    build: ./LLM
-    container_name: ${LANGSERVE_HOST}
-    ports:
-      - "${LANGSERVE_PORT:-8000}:8000"
-    image: harudang-llm-serve:latest
-    environment:
-      - HF_HOME=/app/hf_home
-      - GROQ_API_KEY=${GROQ_API_KEY}
-      - GROQ_API_MODEL=${GROQ_API_MODEL}
-      - GROQ_API_TEMPERATURE=${GROQ_API_TEMPERATURE}
-      - LANGSERVE_PORT=${LANGSERVE_PORT}
-      - ES_HOST=${ES_HOST}
-      - ES_INDEX_NAME=${ES_INDEX_NAME}
-      - EMBEDDING_MODEL_NAME=${EMBEDDING_MODEL_NAME}
-      - RERANKER_MODEL_NAME=${RERANKER_MODEL_NAME}
-    volumes:
-      - hf_data:/app/hf_home
-
-    depends_on:
-      elasticsearch:
-        condition: service_healthy
-    restart: always
-
 volumes:
-  es_data:
   postgres_data:
-  hf_data:
