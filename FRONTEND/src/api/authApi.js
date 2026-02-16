@@ -2,8 +2,7 @@ import httpClient from './httpClient';
 import qs from 'qs'; 
 
 export function login(email, password) {
-    const data = qs.stringify({ email, password });
-    return httpClient.post('/auth/login', data, {
+    return httpClient.post('/auth/login', { email, password }, {
     withCredentials: true
     });
 }
