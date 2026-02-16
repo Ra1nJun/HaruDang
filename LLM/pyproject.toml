@@ -1,7 +1,7 @@
 [project]
 name = "llm-prj"
-version = "0.1.1"
-description = "For Agent.py"
+version = "0.1.2"
+description = "For Agent and Serve"
 requires-python = ">=3.12"
 
 dependencies = [
@@ -9,27 +9,30 @@ dependencies = [
     "langchain-community>=0.3.27",
     "langchain-core>=0.3.72",
     "langchain-groq>=0.3.7",
-    "langchain-milvus>=0.2.1",
     "langdetect>=1.0.9",
     "langgraph>=1.0.0",
-    "pymupdf>=1.26.4",
     "transformers>=4.40.2",
     "elasticsearch>=9.1.1",
     "fastapi>=0.121.0",
     "uvicorn>=0.38.0",
-    "pymysql>=1.1.2",
-    "pydantic[email]>=2.12.3",
-    "python-jose>=3.5.0",
-    "python-multipart>=0.0.20",
-    "passlib>=1.7.4",
-    "bcrypt==4.3.0",
     "langchain-huggingface>=1.2.0",
     "langserve>=0.3.3",
+    "torch==2.9.1+cpu ; sys_platform == 'linux'",
+    "torch==2.9.1 ; sys_platform == 'darwin'",
     "sse-starlette>=3.2.0",
 ]
+
+[tool.uv]
+index-strategy="unsafe-best-match"
 
 [tool.uv.workspace]
 members = [
     "llm_prj",
 ]
-# torch는 GPU 버전 사용으로 삭제했다가 다시 설치를 해야함 -> 예시: [uv pip install torch torchvision --index-url https://download.pytorch.org/whl/cu126]
+
+[tool.uv.sources]
+torch = { index = "pytorch-cpu", marker = "sys_platform == 'linux'" }
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
