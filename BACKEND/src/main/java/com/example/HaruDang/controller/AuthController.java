@@ -108,10 +108,16 @@ public class AuthController {
 
         // 쿠키 삭제
         ResponseCookie accessCookie = ResponseCookie.from("accessToken", null)
+                .httpOnly(true)
+                .secure(true)
+                .sameSite("None")
                 .path("/")
                 .maxAge(0)
                 .build();
         ResponseCookie refreshCookie = ResponseCookie.from("refreshToken", null)
+                .httpOnly(true)
+                .secure(true)
+                .sameSite("None")
                 .path("/")
                 .maxAge(0)
                 .build();
