@@ -11,6 +11,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.Optional;
 
@@ -37,11 +38,12 @@ class CustomUserDetailsServiceTest {
     void loadUserByUsername_success() {
         // Given
         User mockUser = User.builder()
-                .userId(USER_ID)
                 .email(USER_EMAIL)
                 .nickname(USER_NICKNAME)
                 .password(USER_PASSWORD)
                 .build();
+        ReflectionTestUtils.setField(mockUser, "userId", USER_ID);
+
         when(userRepository.findById(USER_ID)).thenReturn(Optional.of(mockUser));
 
         // When

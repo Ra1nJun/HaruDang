@@ -19,6 +19,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -29,6 +30,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 
 @WebMvcTest(AuthController.class)
 class AuthControllerTest {
@@ -70,11 +72,11 @@ class AuthControllerTest {
         loginDto.setPassword(USER_PASSWORD);
 
         User mockUser = User.builder()
-                .userId(USER_ID)
                 .email(USER_EMAIL)
                 .nickname(USER_NICKNAME)
                 .password("encodedPassword") // PasswordEncoder handles this
                 .build();
+        ReflectionTestUtils.setField(mockUser, "userId", USER_ID); // Set userId using reflection
 
         when(userService.getUserByEmail(USER_EMAIL)).thenReturn(mockUser);
         when(userService.checkPassword(USER_PASSWORD, mockUser.getPassword())).thenReturn(true);
@@ -195,12 +197,14 @@ class AuthControllerTest {
     @Test
     @WithMockUser(username = USER_EMAIL) // Simulates an authenticated user
     void getCurrentUser_authenticated_success() throws Exception {
-        CustomUserDetails customUserDetails = new CustomUserDetails(User.builder()
-                .userId(USER_ID)
+        User mockUser = User.builder()
                 .email(USER_EMAIL)
                 .nickname(USER_NICKNAME)
                 .password(USER_PASSWORD)
-                .build());
+                .build();
+        ReflectionTestUtils.setField(mockUser, "userId", USER_ID); // Set userId using reflection
+
+        CustomUserDetails customUserDetails = new CustomUserDetails(mockUser);
 
         // In @WithMockUser, the principal is a UserDetails object.
         // We need to ensure that the mocked AuthenticationPrincipal returns our CustomUserDetails
