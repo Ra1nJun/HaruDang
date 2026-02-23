@@ -49,14 +49,12 @@ jobs:
 
       # 필요하다면 docker-compose.yml, nginx.conf 같은 파일도 EC2로 복사
       - name: Copy docker-compose & nginx.conf to EC2
-        uses: appleboy/scp-action@v0.1.7
+        uses: appleboy/scp-action@v1
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_KEY }}
-          source: |
-            ./docker-compose.yml
-            ./NGINX/default.conf.template
+          source: "./docker-compose.yml,NGINX/default.conf.template"
           target: /home/${{ secrets.EC2_USER }}/HaruDang
 
       - name: Deploy via docker compose on EC2
