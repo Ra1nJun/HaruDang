@@ -46,7 +46,7 @@ jobs:
           key: ${{ secrets.EC2_KEY }}
           source: |
             docker-compose.yml
-            default.conf.template
+            NGINX/default.conf.template
           target: /home/${{ secrets.EC2_USER }}/HaruDang
 
       - name: Deploy via docker compose on EC2
