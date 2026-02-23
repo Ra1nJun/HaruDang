@@ -1,0 +1,70 @@
+name: Deploy to EC2 with Docker Compose
+
+on:
+  push:
+    branches: [ deploy ]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: 'maven'
+
+      - name: Run tests
+        run: mvn -B test
+
+      - name: Build jar
+        run: mvn -B clean package -DskipTests
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USER }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build & push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USER }}/harudang-app:latest
+
+      # 필요하다면 docker-compose.yml, nginx.conf 같은 파일도 EC2로 복사
+      - name: Copy docker-compose & nginx.conf to EC2
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_KEY }}
+          source: |
+            docker-compose.yml
+            default.conf.template
+          target: /home/${{ secrets.EC2_USER }}/HaruDang
+
+      - name: Deploy via docker compose on EC2
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_KEY }}
+          script: |
+            cd ~/app
+            echo "${{ secrets.DOCKERHUB_TOKEN }}" | sudo docker login -u "${{ secrets.DOCKERHUB_USER }}" --password-stdin
+
+            # 최신 이미지 가져오기 (backend만 새로 내려받음)
+            sudo docker compose pull
+
+            # 변경사항 반영해서 재시작
+            sudo docker compose up -d
+
+            # 안 쓰는 이미지 정리 (옵션)
+            sudo docker image prune -af
