@@ -20,7 +20,7 @@ services:
     container_name: spring-backend
     ports:
       - "${SERVER_PORT}:8080"
-    image: harudang-app:latest
+    image: over4ction/harudang-app:latest
     environment:
       - SERVER_PORT=${SERVER_PORT}
       - FRONT_DOMAIN=${FRONT_DOMAIN}
