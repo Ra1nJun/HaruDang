@@ -40,10 +40,12 @@ jobs:
       - name: Debug files
         run: |
           pwd
+          echo "== list =="
           ls
-          ls docker*
-          cd NGINX
-          ls nginx*
+          echo "== docker* =="
+          ls docker* || true
+          echo "== NGINX dir =="
+          ls NGINX || true
 
       # 필요하다면 docker-compose.yml, nginx.conf 같은 파일도 EC2로 복사
       - name: Copy docker-compose & nginx.conf to EC2
@@ -54,7 +56,7 @@ jobs:
           key: ${{ secrets.EC2_KEY }}
           source: |
             ./docker-compose.yml
-            NGINX/default.conf.template
+            ./NGINX/default.conf.template
           target: /home/${{ secrets.EC2_USER }}/HaruDang
 
       - name: Deploy via docker compose on EC2
