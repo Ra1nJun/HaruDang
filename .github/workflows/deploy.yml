@@ -42,6 +42,7 @@ jobs:
           pwd
           ls
           ls docker*
+          cd NGINX
           ls nginx*
 
       # 필요하다면 docker-compose.yml, nginx.conf 같은 파일도 EC2로 복사
