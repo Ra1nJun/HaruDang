@@ -12,7 +12,7 @@ Pet Dog Growth Chatbot
 |구분|기술|
 |:---:|:---|
 |**FRONT**|React + Vite|
-|**BACK & DB**|Python / FastAPI / Spring / PostgreSQL|
+|**BACK & DB**|Spring / PostgreSQL|
 |**Deploy**|Docker / Github Actions / Cloudflare Pages / AWS EC2|
 
 ## k6 성능 평가
