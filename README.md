@@ -21,6 +21,20 @@ Pet Dog Growth Chatbot
       { endpoint:signup }..........: avg=156.91ms min=146.57ms med=155.7ms  max=370.21ms p(90)=160.27ms p(95)=169.57ms
  ```
 
+## 실제 화면
+|메인|
+|:---:|
+|<img width="300" alt="Image" src="https://github.com/user-attachments/assets/9f178bc6-9ddf-4794-a350-915a5540d6f2" />|
+|내용|
+|:---:|
+|<img width="300" alt="Image" src="https://github.com/user-attachments/assets/aedde448-61f9-459c-8756-76433ac5acc0" />|
+|메뉴|
+|:---:|
+|<img width="300" alt="Image" src="https://github.com/user-attachments/assets/cdd9a845-2220-4f52-970c-205bf07d78f0" />|
+|푸터|
+|:---:|
+|<img width="300" alt="Image" src="https://github.com/user-attachments/assets/4e306f13-25c0-4fb4-9279-ebb6e01b9a57" />|
+
 ## 폴더 구조
 ```
 LLM-PRJ
