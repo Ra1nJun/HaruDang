@@ -12,6 +12,29 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      # 1. 현재 GitHub Actions runner의 공인 IP 가져오기
+      - name: Get GitHub Actions public IP
+        id: ip
+        uses: haythem/public-ip@v1.3
+        # 결과: steps.ip.outputs.ipv4 에 "x.x.x.x" 형태로 저장됨
+
+      # 2. AWS 자격 증명 설정
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      # 3. 보안 그룹에 runner IP를 22포트로 추가
+      - name: Add GitHub Actions IP to Security Group
+        run: |
+          aws ec2 authorize-security-group-ingress \
+            --group-id ${{ secrets.AWS_SECURITY_GROUP_ID }} \
+            --protocol tcp \
+            --port 22 \
+            --cidr ${{ steps.ip.outputs.ipv4 }}/32
+
       - name: Set up JDK
         uses: actions/setup-java@v4
         with:
@@ -75,3 +98,12 @@ jobs:
 
             # 안 쓰는 이미지 정리 (옵션)
             sudo docker image prune -af
+
+      - name: Remove GitHub Actions IP from Security Group
+        if: always()
+        run: |
+          aws ec2 revoke-security-group-ingress \
+            --group-id ${{ secrets.AWS_SECURITY_GROUP_ID }} \
+            --protocol tcp \
+            --port 22 \
+            --cidr ${{ steps.ip.outputs.ipv4 }}/32
