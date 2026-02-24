@@ -1,5 +1,5 @@
 # LLM_PRJ
-Pet Dog Growth Chatbot
+Pet Dog Growth Web
 
 ## 개요
 해당 프로젝트는 반려 강아지의 성장, 훈련 등 생애주기에 따른 필요한 정보를 알려주고 로드맵을 제공하는 웹이다.
