@@ -41,7 +41,6 @@ function App() {
         { label: '사회화', ariaLabel: 'Learn about 2-4 months socialization', link: '/2-4-months' },
         { label: '훈련 가이드', ariaLabel: 'Learn training guide', link: '/training-guide' },
         { label: '펫티켓', ariaLabel: 'Learn about petiquette', link: '/petiquette' },
-        { label: 'AI 챗봇', ariaLabel: 'Go to Chat AI page', link: '/chat-ai' },
         { label: '소개', ariaLabel: 'Learn about us', link: '/about' },
         { label: '문의', ariaLabel: 'Contact us', link: '/contact' },
         loggedIn

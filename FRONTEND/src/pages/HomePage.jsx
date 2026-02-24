@@ -60,7 +60,6 @@ const HomePage = () => {
               <li><Link to="/2-4-months"><b>↗︎사회화:</b></Link> 강아지의 나이가 생후 2-4개월이 적합하지만, 그렇지 않더라도 강아지의 사회화에 도움이 될 수 있습니다.</li>
               <li><Link to="/training-guide"><b>↗︎훈련 가이드:</b></Link> 좀 더 세분화된 훈련 방법을 배워보세요.</li>
               <li><Link to="/petiquette"><b>↗︎펫티켓:</b></Link> 공공장소에서 반려견과 같이 할 때 지켜야 할 기본적인 에티켓을 배워보세요.</li>
-              <li><Link to="/chat-ai"><b>↗︎AI 챗봇:</b></Link> 반려견과 관련되어 궁금한 것이 있으신가요? AI에게 물어보세요.</li>
             </ul>
           </section>
           <section>
