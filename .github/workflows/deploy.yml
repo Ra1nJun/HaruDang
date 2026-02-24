@@ -87,7 +87,7 @@ jobs:
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_KEY }}
           script: |
-            cd ~/app
+            cd ~/HaruDang
             echo "${{ secrets.DOCKERHUB_TOKEN }}" | sudo docker login -u "${{ secrets.DOCKERHUB_USER }}" --password-stdin
 
             # 최신 이미지 가져오기 (backend만 새로 내려받음)
