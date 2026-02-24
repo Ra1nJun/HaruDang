@@ -9,9 +9,11 @@ Pet Dog Growth Chatbot
  - 사용자의 계정을 관리하고 JWT 토큰으로 권한 제공
 
 ## 기술 스택
-|Front|Back & DB|Deploy|
-|:---:|:---:|:---:|
-|React + Vite|Python / FastAPI / Spring / PostgreSQL| Docker / Github Actions / Cloudflare Pages / AWS EC2 |
+|구분|기술|
+|:---:|:---|
+|**FRONT**|React + Vite|
+|**BACK & DB**|Python / FastAPI / Spring / PostgreSQL|
+|**Deploy**|Docker / Github Actions / Cloudflare Pages / AWS EC2|
 
 ## k6 성능 평가
  ```
