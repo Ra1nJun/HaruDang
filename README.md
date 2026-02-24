@@ -17,10 +17,10 @@ Pet Dog Growth Chatbot
 
 ## k6 성능 평가
  ```
-    http_req_duration..............: avg=190.44ms min=146.57ms med=157.81ms max=689.28ms p(90)=255.98ms p(95)=285.79ms
-      { endpoint:login }...........: avg=258.09ms min=225.4ms  med=240.59ms max=689.28ms p(90)=308.53ms p(95)=348.32ms
-      { endpoint:me }..............: avg=156.32ms min=147.62ms med=156.69ms max=375.93ms p(90)=161.26ms p(95)=163.44ms
-      { endpoint:signup }..........: avg=156.91ms min=146.57ms med=155.7ms  max=370.21ms p(90)=160.27ms p(95)=169.57ms
+http_req_duration..............: avg=190.44ms min=146.57ms med=157.81ms max=689.28ms p(90)=255.98ms p(95)=285.79ms
+    { endpoint:signup }..........: avg=156.91ms min=146.57ms med=155.7ms  max=370.21ms p(90)=160.27ms p(95)=169.57ms
+    { endpoint:login }...........: avg=258.09ms min=225.4ms  med=240.59ms max=689.28ms p(90)=308.53ms p(95)=348.32ms
+    { endpoint:me }..............: avg=156.32ms min=147.62ms med=156.69ms max=375.93ms p(90)=161.26ms p(95)=163.44ms
  ```
 
 ## 실제 화면
