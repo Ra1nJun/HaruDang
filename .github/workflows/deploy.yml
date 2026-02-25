@@ -60,17 +60,7 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKERHUB_USER }}/harudang-app:latest
 
-      - name: Debug files
-        run: |
-          pwd
-          echo "== list =="
-          ls
-          echo "== docker* =="
-          ls docker* || true
-          echo "== NGINX dir =="
-          ls NGINX || true
-
-      # 필요하다면 docker-compose.yml, nginx.conf 같은 파일도 EC2로 복사
+      # docker-compose.yml, nginx.conf 같은 파일 EC2로 복사
       - name: Copy docker-compose & nginx.conf to EC2
         uses: appleboy/scp-action@v1
         with:
@@ -90,13 +80,13 @@ jobs:
             cd ~/HaruDang
             echo "${{ secrets.DOCKERHUB_TOKEN }}" | sudo docker login -u "${{ secrets.DOCKERHUB_USER }}" --password-stdin
 
-            # 최신 이미지 가져오기 (backend만 새로 내려받음)
+            # 최신 이미지 가져오기
             sudo docker compose pull
 
             # 변경사항 반영해서 재시작
             sudo docker compose up -d
 
-            # 안 쓰는 이미지 정리 (옵션)
+            # 안 쓰는 이미지 정리
             sudo docker image prune -af
 
       - name: Remove GitHub Actions IP from Security Group
