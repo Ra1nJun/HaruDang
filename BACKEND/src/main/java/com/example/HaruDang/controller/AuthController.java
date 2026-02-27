@@ -49,7 +49,7 @@ public class AuthController {
                 .secure(true)
                 .path("/")
                 .maxAge(accessExpireTime)
-                .sameSite("None")
+                .sameSite("Lax")
                 .build();
 
         // Refresh Token 쿠키 설정
@@ -58,7 +58,7 @@ public class AuthController {
                 .secure(true)
                 .path("/auth")
                 .maxAge(refreshExpireTime)
-                .sameSite("None")
+                .sameSite("Lax")
                 .build();
 
         response.addHeader(HttpHeaders.SET_COOKIE, accessCookie.toString());
@@ -77,7 +77,7 @@ public class AuthController {
                 .secure(true)
                 .path("/")
                 .maxAge(accessExpireTime)
-                .sameSite("None")
+                .sameSite("Lax")
                 .build();
 
         // Refresh Token 쿠키 설정
@@ -86,7 +86,7 @@ public class AuthController {
                 .secure(true)
                 .path("/")
                 .maxAge(refreshExpireTime)
-                .sameSite("None")
+                .sameSite("Lax")
                 .build();
 
         response.addHeader(HttpHeaders.SET_COOKIE, accessCookie.toString());
@@ -110,14 +110,14 @@ public class AuthController {
         ResponseCookie accessCookie = ResponseCookie.from("accessToken", null)
                 .httpOnly(true)
                 .secure(true)
-                .sameSite("None")
+                .sameSite("Lax")
                 .path("/")
                 .maxAge(0)
                 .build();
         ResponseCookie refreshCookie = ResponseCookie.from("refreshToken", null)
                 .httpOnly(true)
                 .secure(true)
-                .sameSite("None")
+                .sameSite("Lax")
                 .path("/")
                 .maxAge(0)
                 .build();

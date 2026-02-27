@@ -29,27 +29,10 @@ services:
       - LANGSERVE_HOST=${LANGSERVE_HOST}
       - LANGSERVE_PORT=${LANGSERVE_PORT}
       - SPRING_PROFILES_ACTIVE=${ENV}
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/${PSQL_NAME}
-      - SPRING_DATASOURCE_USERNAME=${PSQL_USER}
-      - SPRING_DATASOURCE_PASSWORD=${PSQL_PW}
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://${RDS_HOST}:${RDS_PORT}/${RDS_DB_NAME}
+      - PSQL_NAME=${RDS_DB_NAME}
+      - PSQL_USER=${RDS_USERNAME}
+      - PSQL_PW=${RDS_PASSWORD}
       - SPRING_ELASTICSEARCH_URIS=http://elasticsearch:9200
-    depends_on:
-      postgres:
-        condition: service_started
+
     restart: always
-
-  postgres:
-    image: postgres:15-alpine
-    container_name: postgresql
-    restart: unless-stopped
-    environment:
-      POSTGRES_USER: ${PSQL_USER}
-      POSTGRES_PASSWORD: ${PSQL_PW}
-      POSTGRES_DB: ${PSQL_NAME}
-    ports:
-      - "${PSQL_PORT}:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-
-volumes:
-  postgres_data:

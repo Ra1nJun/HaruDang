@@ -2,7 +2,7 @@
 import http from 'k6/http';
 import { check, sleep } from 'k6';
 
-const BASE_URL = __ENV.BACK_DOMAIN; // .env에서 못 읽기 때문에 실행할 때 같이 넘겨줘야 함
+const BASE_URL = "https://api.harudang.cloud"; // .env에서 못 읽기 때문에 실행할 때 같이 넘겨줘야 함
 
 // 테스트 계정 목록
 const USER = { email: 'test01@example.com', password: 'test1234!', nickname: 'Tester01' };
