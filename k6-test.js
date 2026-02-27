@@ -2,7 +2,7 @@
 import http from 'k6/http';
 import { check, sleep } from 'k6';
 
-const BASE_URL = "https://api.harudang.cloud"; // .env에서 못 읽기 때문에 실행할 때 같이 넘겨줘야 함
+const BASE_URL = "https://api.harudang.cloud/api"; // .env에서 못 읽기 때문에 실행할 때 같이 넘겨줘야 함
 
 // 테스트 계정 목록
 const USER = { email: 'test01@example.com', password: 'test1234!', nickname: 'Tester01' };
@@ -10,8 +10,8 @@ const USER = { email: 'test01@example.com', password: 'test1234!', nickname: 'Te
 export const options = {
   insecureSkipTLSVerify: true, // TLS 인증 건너뛰기
   stages: [
-    { duration: '1m', target: 50 }, // 1분 동안 0명에서 20명까지 서서히 증가
-    { duration: '3m', target: 50 }, // 3분 동안 20명 유지
+    { duration: '1m', target: 20 }, // 1분 동안 0명에서 20명까지 서서히 증가
+    { duration: '3m', target: 20 }, // 3분 동안 20명 유지
     { duration: '1m', target: 0 },  // 1분 동안 0명으로 서서히 감소
   ],
   thresholds: {
