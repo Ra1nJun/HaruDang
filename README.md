@@ -7,6 +7,7 @@ Pet Dog Growth Web
 ## 주요 기능
  - 반려견을 키우는데 필요한 정보를 사용자에게 체크리스트 형태로 로드맵 제공
  - 사용자의 계정을 관리하고 JWT 토큰으로 권한 제공
+ - Cloudflare와 EC2로 나눠 배포함으로 비용 효율성과 보안이 높음
 
 ## 기술 스택
 |구분|기술|
@@ -17,10 +18,10 @@ Pet Dog Growth Web
 
 ## k6 성능 평가
  ```
-http_req_duration..............: avg=190.44ms min=146.57ms med=157.81ms max=689.28ms p(90)=255.98ms p(95)=285.79ms
-    { endpoint:signup }..........: avg=156.91ms min=146.57ms med=155.7ms  max=370.21ms p(90)=160.27ms p(95)=169.57ms
-    { endpoint:login }...........: avg=258.09ms min=225.4ms  med=240.59ms max=689.28ms p(90)=308.53ms p(95)=348.32ms
-    { endpoint:me }..............: avg=156.32ms min=147.62ms med=156.69ms max=375.93ms p(90)=161.26ms p(95)=163.44ms
+http_req_duration..............: avg=268.81ms min=142.25ms med=241.51ms max=2.65s    p(90)=361.53ms p(95)=409.7ms
+  { endpoint:signup }..........: avg=245.29ms min=172.2ms  med=240.89ms max=2.65s    p(90)=268.16ms p(95)=283.74ms 
+  { endpoint:login }...........: avg=366.03ms min=250.86ms med=336.64ms max=2.28s    p(90)=435.4ms  p(95)=505.97ms
+  { endpoint:me }..............: avg=195.11ms min=142.25ms med=198.33ms max=819.73ms p(90)=216.66ms p(95)=220.03ms
  ```
 
 ## 실제 화면
