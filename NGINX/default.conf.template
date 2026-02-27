@@ -1,7 +1,7 @@
 # 80 포트: 모두 HTTPS로 리다이렉트
 server {
     listen 80;
-    server_name _;
+    server_name harudang.cloud;
 
     return 301 https://$host$request_uri;
 }
@@ -9,12 +9,16 @@ server {
 # 443 포트: self-signed 인증서로 HTTPS + 프론트/백엔드 프록시
 server {
     listen 443 ssl;
-    server_name _;
+    server_name harudang.cloud;
 
-    ssl_certificate     /etc/ssl/certs/selfsigned.crt;
-    ssl_certificate_key /etc/ssl/private/selfsigned.key;
+    ssl_certificate     /etc/letsencrypt/live/api.harudang.cloud/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/api.harudang.cloud/privkey.pem;
 
-    # 프론트 (Vite 빌드 결과를 nginx가 서빙할 경우)
+    # 보안 최적화
+    ssl_protocols TLSv1.2 TLSv1.3;
+    ssl_prefer_server_ciphers on;
+
+    # 프론트 (Vite 빌드 결과)
     location / {
         root /usr/share/nginx/html;
         index index.html;
@@ -24,7 +28,13 @@ server {
     # 백엔드 API 프록시
     location /api/ {
         proxy_pass http://${BACKEND_URL}/;
+
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
         proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto $scheme;

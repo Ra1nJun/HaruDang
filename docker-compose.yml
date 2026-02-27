@@ -9,8 +9,7 @@ services:
       - BACKEND_URL=${BACKEND_URL}
     volumes:
       - ./NGINX/default.conf.template:/etc/nginx/templates/default.conf.template:ro # 설정 파일 연결
-      - /home/ubuntu/certs/selfsigned.crt:/etc/ssl/certs/selfsigned.crt:ro
-      - /home/ubuntu/certs/selfsigned.key:/etc/ssl/private/selfsigned.key:ro
+      - /etc/letsencrypt:/etc/letsencrypt:ro
     depends_on:
       - app
     restart: always
