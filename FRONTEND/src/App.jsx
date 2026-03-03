@@ -1,10 +1,11 @@
 import { Routes, Route } from 'react-router-dom';
 import { ToastProvider } from './context/ToastContext';
 import { lazy, Suspense } from 'react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import StaggeredMenu from './components/StaggeredMenu';
 import Footer from './components/Footer';
 import { useAuthCheck } from './hooks/authCheck';
-import { logout } from './api/authApi';
+import { useLogout } from './api/authApi';
 import ScrollToTop from './components/ScrollToTop';
 
 const HomePage = lazy(() => import('./pages/HomePage'));
@@ -22,12 +23,21 @@ const ContactPage = lazy(() => import('./pages/ContactPage'));
 const PrivacyPolicyPage = lazy(() => import('./pages/PrivacyPolicyPage'));
 const TermsOfServicePage = lazy(() => import('./pages/TermsOfServicePage'));
 
-function App() {
-    const { loggedIn, checkAuth } = useAuthCheck();
+const queryClient = new QueryClient({
+    defaultOptions: {
+        queries: {
+            refetchOnWindowFocus: false,
+        },
+    },
+});
+
+function AppContent() {
+    const { loggedIn } = useAuthCheck();
+    const logoutMutation = useLogout();
+
     const handleLogout = async () => {
         try {
-            await logout();
-            await checkAuth();
+            await logoutMutation.mutateAsync();
         } catch (e) {
             alert('Logout failed: ' + e.message);
         }
@@ -85,6 +95,14 @@ function App() {
 
             <Footer />
         </ToastProvider>
+    );
+}
+
+function App() {
+    return (
+        <QueryClientProvider client={queryClient}>
+            <AppContent />
+        </QueryClientProvider>
     );
 }
 
