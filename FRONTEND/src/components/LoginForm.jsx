@@ -1,12 +1,14 @@
 import './LoginForm.css';
 import { Link, useNavigate } from 'react-router-dom';
-import { login } from '../api/authApi';
+import { login, AUTH_QUERY_KEY } from '../api/authApi';
 import { useToast } from '../context/ToastContext';
+import { useQueryClient } from '@tanstack/react-query';
 import { useState } from "react";
 
 const LoginForm = () => {
   const { showToast } = useToast();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const [formData, setFormData] = useState({
       email: "",
       password: ""
@@ -27,9 +29,12 @@ const LoginForm = () => {
           formData.email,
           formData.password
         );
+        
+        // 캐시 무효화하여 새로운 auth 정보 요청
+        await queryClient.invalidateQueries({ queryKey: [AUTH_QUERY_KEY] });
   
         showToast("로그인 성공!", "success");
-        navigate("/", { state: { loggedIn: true } });
+        navigate("/");
       } catch (error) {
         console.error(error);
         showToast("로그인 실패", "error");
