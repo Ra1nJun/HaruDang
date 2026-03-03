@@ -4,9 +4,9 @@ import { lazy, Suspense } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import StaggeredMenu from './components/StaggeredMenu';
 import Footer from './components/Footer';
-import { useAuthCheck } from './hooks/authCheck';
-import { useLogout } from './api/authApi';
+import { AuthProvider, useAuth } from './context/AuthContext';
 import ScrollToTop from './components/ScrollToTop';
+
 
 const HomePage = lazy(() => import('./pages/HomePage'));
 const AboutPage = lazy(() => import('./pages/AboutPage'));
@@ -35,12 +35,11 @@ const queryClient = new QueryClient({
 });
 
 function AppContent() {
-    const { loggedIn } = useAuthCheck();
-    const logoutMutation = useLogout();
+    const { loggedIn, logout } = useAuth();
 
     const handleLogout = async () => {
         try {
-            await logoutMutation.mutateAsync();
+            await logout();
         } catch (e) {
             alert('Logout failed: ' + e.message);
         }
@@ -104,7 +103,9 @@ function AppContent() {
 function App() {
     return (
         <QueryClientProvider client={queryClient}>
-            <AppContent />
+            <AuthProvider>
+                <AppContent />
+            </AuthProvider>
         </QueryClientProvider>
     );
 }

@@ -1,18 +1,8 @@
-import { useMe } from '../api/authApi';
-import { useState, useEffect } from 'react';
+// legacy hook, now backed by AuthContext
+
+import { useAuth } from '../context/AuthContext';
 
 export function useAuthCheck() {
-    const { data, isLoading, error } = useMe();
-    const [prevLogged, setPrevLogged] = useState(false);
-
-    useEffect(() => {
-        if (data && typeof data.loggedIn === 'boolean') {
-            setPrevLogged(data.loggedIn);
-        }
-    }, [data]);
-
-    // 로딩 중에는 이전 상태 유지
-    const loggedIn = isLoading ? prevLogged : data?.loggedIn ?? false;
-
+    const { loggedIn, isLoading, error } = useAuth();
     return { loggedIn, isLoading, error };
 }
