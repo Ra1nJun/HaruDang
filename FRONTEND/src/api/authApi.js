@@ -24,9 +24,12 @@ export function useMe() {
     return useQuery({
         queryKey: [AUTH_QUERY_KEY],
         queryFn: () => me().then(res => res.data),
-        staleTime: 5 * 60 * 1000, // 5분 캐시
-        gcTime: 10 * 60 * 1000, // 10분 동안 메모리 유지
+        staleTime: 5 * 60 * 1000, // 5분 동안 신선한 상태 유지
+        cacheTime: 10 * 60 * 1000, // 10분 동안 캐시 유지
         retry: false,
+        refetchOnMount: false,       // 마운트 시 자동 재요청 금지
+        refetchOnWindowFocus: false, // 포커스 복귀 시 재요청 금지
+        refetchOnReconnect: false,   // 네트워크 재연결 시 재요청 금지
     });
 }
 
@@ -35,8 +38,8 @@ export function useLogout() {
     return useMutation({
         mutationFn: logout,
         onSuccess: () => {
-            // 캐시 무효화
-            queryClient.invalidateQueries({ queryKey: [AUTH_QUERY_KEY] });
+            // 로그아웃 시 아예 캐시 삭제
+            queryClient.removeQueries({ queryKey: [AUTH_QUERY_KEY] });
         },
     });
 }
