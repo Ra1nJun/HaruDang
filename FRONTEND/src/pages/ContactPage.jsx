@@ -42,6 +42,7 @@ const ContactPage = () => {
                 id="email"
                 type="email" 
                 name="email"
+                placeholder="문의에 대한 답장을 받을 이메일을 입력해주세요."
                 required
               />
               <ValidationError prefix="Email" field="email" errors={state.errors} />
@@ -52,6 +53,7 @@ const ContactPage = () => {
                 id="message"
                 name="message"
                 rows="5"
+                placeholder="문의 내용을 입력해주세요."
                 required
               />
               <ValidationError prefix="Message" field="message" errors={state.errors} />
