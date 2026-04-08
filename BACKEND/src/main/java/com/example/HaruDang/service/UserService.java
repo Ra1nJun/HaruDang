@@ -7,6 +7,7 @@ import com.example.HaruDang.exception.BusinessException;
 import com.example.HaruDang.exception.ErrorCode;
 import com.example.HaruDang.repository.RefreshTokenRepository;
 import com.example.HaruDang.repository.UserRepository;
+import io.micrometer.observation.annotation.Observed;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -19,6 +20,7 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final RefreshTokenRepository refreshTokenRepository;
 
+    @Observed(name = "user_lookup")
     public User getUserByEmail(String email){
         return userRepository.findByEmail(email)
                 .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
@@ -46,6 +48,7 @@ public class UserService {
         }
     }
 
+    @Observed(name = "check_password")
     public boolean checkPassword(String rawPassword, String encodedPassword) {
         return passwordEncoder.matches(rawPassword, encodedPassword);
     }

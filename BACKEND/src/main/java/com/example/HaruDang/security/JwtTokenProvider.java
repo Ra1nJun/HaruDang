@@ -4,6 +4,7 @@ import com.example.HaruDang.exception.BusinessException;
 import com.example.HaruDang.exception.ErrorCode;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
+import io.micrometer.observation.annotation.Observed;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -27,6 +28,7 @@ public class JwtTokenProvider {
         this.key = Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
     }
 
+    @Observed(name = "create_JWT")
     public String createAccessToken(Long userId) {
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + tokenExpireTime);
@@ -39,6 +41,7 @@ public class JwtTokenProvider {
                 .compact();
     }
 
+    @Observed(name = "create_Refresh_JWT")
     public String createRefreshToken(Long userId) {
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + refreshExpireTime);
@@ -51,6 +54,7 @@ public class JwtTokenProvider {
                 .compact();
     }
 
+    @Observed(name = "validate_Token")
     public boolean validateToken(String token) {
         try {
             Jwts.parser().verifyWith((SecretKey) key).build().parseSignedClaims(token);

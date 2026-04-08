@@ -1,0 +1,14 @@
+server:
+  http_listen_port: 3200
+
+distributor:
+  receivers:
+    otlp:
+      protocols:
+        grpc: # Spring Boot가 데이터를 보내는 통로
+
+storage:
+  trace:
+    backend: local
+    local:
+      path: /tmp/tempo/traces
