@@ -1,14 +1,35 @@
 server:
   http_listen_port: 3200
+  log_level: info
 
 distributor:
   receivers:
     otlp:
       protocols:
-        grpc: # Spring Boot가 데이터를 보내는 통로
+        grpc:
+          endpoint: "0.0.0.0:4317" # 내부 통신용으로 4317
+
+ingester:
+  max_block_duration: 5m
+  lifecycler:
+    ring:
+      kvstore:
+        store: inmemory
+      replication_factor: 1
 
 storage:
   trace:
     backend: local
+    wal:
+      path: /tmp/tempo/wal
     local:
       path: /tmp/tempo/traces
+    block:
+      bloom_filter_false_positive_rate: 0.05
+      index_downsample_bytes: 1000
+
+search:
+  enabled: true                    # Grafana에서 검색을 위해 필수
+
+overrides:
+  metrics_generator_processors: [service-graphs, span-metrics]
