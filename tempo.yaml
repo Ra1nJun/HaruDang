@@ -23,15 +23,18 @@ storage:
       path: /tmp/tempo/wal
     local:
       path: /tmp/tempo/traces
-    pool:
-      max_workers: 100
 
-storage_config:
-  block:
-    bloom_filter_false_positive_rate: 0.05
-    index_downsample_bytes: 1000
+storage:
+  trace:
+    backend: local
+    wal:
+      path: /tmp/tempo/wal
+    local:
+      path: /tmp/tempo/traces
 
-search_enabled: true                    # Grafana에서 검색을 위해 필수
+query_frontend:
+  search:
+    concurrent_jobs: 1000                   # Grafana에서 검색을 위해 필수
 
 overrides:
   metrics_generator_processors: [service-graphs, span-metrics]
