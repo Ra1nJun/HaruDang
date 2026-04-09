@@ -26,7 +26,3 @@ storage:
       path: /var/tempo/wal
     local:
       path: /var/tempo/traces
-
-compactor:
-  config:
-    compaction_cycle: 30s
