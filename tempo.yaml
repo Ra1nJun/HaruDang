@@ -9,13 +9,6 @@ distributor:
         grpc:
           endpoint: "0.0.0.0:4317" # 내부 통신용으로 4317
 
-ingester:
-  lifecycler:
-    ring:
-      kvstore:
-        store: inmemory
-      replication_factor: 1
-
 storage:
   trace:
     backend: local
