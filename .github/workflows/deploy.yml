@@ -15,7 +15,9 @@ jobs:
       # 1. 현재 GitHub Actions runner의 공인 IP 가져오기
       - name: Get GitHub Actions public IP
         id: ip
-        uses: haythem/public-ip@v1.3
+        run: |
+          ipv4=$(curl -s https://api.ipify.org)
+          echo "ipv4=$ipv4" >> $GITHUB_OUTPUT
         # 결과: steps.ip.outputs.ipv4 에 "x.x.x.x" 형태로 저장됨
 
       # 2. AWS 자격 증명 설정
