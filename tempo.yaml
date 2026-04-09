@@ -22,4 +22,6 @@ query_frontend:
     concurrent_jobs: 1000                   # Grafana에서 검색을 위해 필수
 
 overrides:
-  metrics_generator_processors: [service-graphs, span-metrics]
+  defaults:
+    metrics_generator:
+      processors: [service-graphs, span-metrics]
