@@ -10,7 +10,6 @@ distributor:
           endpoint: "0.0.0.0:4317" # 내부 통신용으로 4317
 
 ingester:
-  max_block_duration: 5m
   lifecycler:
     ring:
       kvstore:
@@ -24,12 +23,15 @@ storage:
       path: /tmp/tempo/wal
     local:
       path: /tmp/tempo/traces
-    block:
-      bloom_filter_false_positive_rate: 0.05
-      index_downsample_bytes: 1000
+    pool:
+      max_workers: 100
 
-search:
-  enabled: true                    # Grafana에서 검색을 위해 필수
+storage_config:
+  block:
+    bloom_filter_false_positive_rate: 0.05
+    index_downsample_bytes: 1000
+
+search_enabled: true                    # Grafana에서 검색을 위해 필수
 
 overrides:
   metrics_generator_processors: [service-graphs, span-metrics]
