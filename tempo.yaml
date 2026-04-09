@@ -24,14 +24,6 @@ storage:
     local:
       path: /tmp/tempo/traces
 
-storage:
-  trace:
-    backend: local
-    wal:
-      path: /tmp/tempo/wal
-    local:
-      path: /tmp/tempo/traces
-
 query_frontend:
   search:
     concurrent_jobs: 1000                   # Grafana에서 검색을 위해 필수
