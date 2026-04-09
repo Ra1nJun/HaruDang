@@ -7,21 +7,26 @@ distributor:
     otlp:
       protocols:
         grpc:
-          endpoint: "0.0.0.0:4317" # 내부 통신용으로 4317
+          endpoint: 0.0.0.0:4317
+        http:
+          endpoint: 0.0.0.0:4318
+
+ingester:
+  max_block_duration: 5m
+  lifecycler:
+    ring:
+      kvstore:
+        store: inmemory
+      replication_factor: 1
 
 storage:
   trace:
     backend: local
     wal:
-      path: /tmp/tempo/wal
+      path: /var/tempo/wal
     local:
-      path: /tmp/tempo/traces
+      path: /var/tempo/traces
 
-query_frontend:
-  search:
-    concurrent_jobs: 1000                   # Grafana에서 검색을 위해 필수
-
-overrides:
-  defaults:
-    metrics_generator:
-      processors: [service-graphs, span-metrics]
+compactor:
+  config:
+    compaction_cycle: 30s
